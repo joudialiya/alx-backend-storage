@@ -1,6 +1,6 @@
 -- Safe div
 DELIMITER $$
-CREATE FUNCTION SafeDiv(IN a INT, IN b, INT)
+CREATE FUNCTION SafeDiv(IN a INT, IN b INT)
 BEGIN
   IF b = 0 THEN
     RETURN (0);
