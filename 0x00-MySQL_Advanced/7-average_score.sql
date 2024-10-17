@@ -1,7 +1,7 @@
 -- Avr score
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageScoreForUser
-(IN user_id IN)
+(IN user_id INT)
 BEGIN
   UPDATE users
   SET average_score = (
