@@ -1,5 +1,4 @@
 -- Email validation
-DROP TRIGGER email_validation;
 DELIMITER $$
 CREATE TRIGGER email_validation
 BEFORE UPDATE
