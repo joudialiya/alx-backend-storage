@@ -1,0 +1,10 @@
+-- Safe div
+DELIMITER $$
+CREATE FUNCTION SafeDiv(IN a INT, IN b, INT)
+BEGIN
+  IF b = 0 THEN
+    RETURN (0);
+  END IF;
+  RETURN (a / b);
+END $$
+DELIMITER ;
