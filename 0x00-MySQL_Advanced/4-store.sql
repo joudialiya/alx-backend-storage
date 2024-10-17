@@ -14,7 +14,7 @@ BEGIN
   );
   
   UPDATE items
-  SET quantity = prev - 1
+  SET quantity = prev - NEW.number
   WHERE name = NEW.item_name;
 
 END $$
