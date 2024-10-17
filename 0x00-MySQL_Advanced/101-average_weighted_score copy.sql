@@ -1,7 +1,7 @@
 -- Calculate weighted score
 
 DELIMITER $$
-CREATE PROCEDURE ComputeAverageWeightedScoreForUser(IN user_id INT)
+CREATE PROCEDURE ComputeAverageWeightedScoreForUsers(IN user_id INT)
 BEGIN
   UPDATE users set average_score = (SELECT
     SUM(corrections.score * projects.weight) / SUM(projects.weight)
