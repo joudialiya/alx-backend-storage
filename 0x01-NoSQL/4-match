@@ -1,0 +1,2 @@
+// Match - select
+db.school.find({name: {$eq: 'Holberton school'}});
