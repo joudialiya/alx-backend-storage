@@ -1,1 +1,2 @@
-show dbs;
+// Switch to a database
+use my_db;
