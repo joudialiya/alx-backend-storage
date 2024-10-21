@@ -1,4 +1,4 @@
 // Delete
-db.school.remove(
+db.school.deleteMany(
   {name: {$eq: "Holberton school"}}
 );
