@@ -4,4 +4,4 @@
 
 def update_topics(mongo_collection, name, topics):
     """Intert function"""
-    mongo_collection.update_one({name}, {"$eq": {topics}})
+    mongo_collection.update_one({name}, {"$set": {topics}})
