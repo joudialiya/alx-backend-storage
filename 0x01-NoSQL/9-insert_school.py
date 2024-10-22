@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Insert using pycode"""
 from pymongo.collection import Collection
-import typing
 
 
-def insert_school(
-        mongo_collection: Collection,
-        **kwargs: typing.Dict[str, typing.Any]):
-    """Intert to a collection function"""
+def insert_school(mongo_collection: Collection, **kwargs):
+    """
+    Insert to a collection function
+    :return int
+    """
     return mongo_collection.insert_one(kwargs).__inserted_id
