@@ -8,6 +8,6 @@ client = pymongo.MongoClient('mongodb://127.0.0.1:27017')
 nginx_collection = client.logs.nginx
 print('{:d} logs'.format(nginx_collection.count_documents({})))
 for method in ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']:
-    print('\tmethode {}: {}'.format(
+    print('\tmethod {}: {}'.format(
         method,
         nginx_collection.count_documents({'method': method})))
