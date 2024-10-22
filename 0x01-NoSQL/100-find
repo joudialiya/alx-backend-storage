@@ -1,0 +1,2 @@
+// Select like
+db.school.find({name: /Holberton.*/})
