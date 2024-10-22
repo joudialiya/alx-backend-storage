@@ -8,4 +8,4 @@ def insert_school(
         **kwargs):
     """Insert to a collection function"""
     document = mongo_collection.insert_one(kwargs)
-    return document.__inserted_id
+    return document.inserted_id
