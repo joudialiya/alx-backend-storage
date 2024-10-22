@@ -7,5 +7,5 @@ import typing
 def insert_school(
         mongo_collection: Collection,
         **kwargs: typing.Dict[str, typing.Any]):
-    """Intert function"""
+    """Intert to a collection function"""
     return mongo_collection.insert_one(kwargs).__inserted_id
