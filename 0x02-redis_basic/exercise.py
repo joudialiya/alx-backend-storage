@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Exercise"""
 import redis
-import typing
-import uuid
+from typing import Union
+from uuid import uuid4
 
 
 class Cache:
@@ -13,8 +13,8 @@ class Cache:
 
     def store(
             self,
-            data: typing.Union[str, bytes, int, float]) -> str:
+            data: Union[str, bytes, int, float]) -> str:
         """Cache up data"""
-        id: str = str(uuid.uuid4())
+        id: str = str(uuid4())
         self._redis.set(id, data)
         return id
