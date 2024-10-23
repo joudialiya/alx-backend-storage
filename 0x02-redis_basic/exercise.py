@@ -18,3 +18,14 @@ class Cache:
         id = str(uuid.uuid4())
         self._redis.set(id, data)
         return id
+
+    def get(
+            self,
+            key: str,
+            fn: typing.Optional[typing.Callable]
+            ) -> typing.Union[str, bytes, int, float]:
+        """Retrieve data"""
+        result = self._redis.get(key)
+        if result is None:
+            return None
+        return fn(result) if fn is not None else result
