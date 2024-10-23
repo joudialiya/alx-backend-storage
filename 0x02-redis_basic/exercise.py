@@ -49,6 +49,7 @@ class Cache:
     def __init__(self) -> None:
         """ The constructor of the cahing class"""
         self._redis = redis.Redis()
+        self._redis.flushdb()
 
     @call_history
     @count_calls
