@@ -29,6 +29,19 @@ def call_history(method: typing.Callable) -> typing.Callable:
     return wrapper
 
 
+def replay(fn: typing.Callable) -> None:
+    """ retrieve lists """
+    client = redis.Redis()
+    calls = client.get(fn.__qualname__).decode('utf-8')
+    inputs = [input.decode('utf-8') for input in
+              client.lrange(fn.__qualname__+":inputs", 0, -1)]
+    outputs = [output.decode('utf-8') for output in
+               client.lrange(fn.__qualname__+":outputs", 0, -1)]
+    print("{} was called {} times:".format(fn.__qualname__, calls))
+    for input, output in zip(inputs, outputs):
+        print('{}(*{}) -> {}'.format(fn.__qualname__, input, output))
+
+
 class Cache:
     """
     Caching class wraps redis
