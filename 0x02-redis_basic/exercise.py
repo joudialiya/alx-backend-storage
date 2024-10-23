@@ -15,14 +15,14 @@ class Cache:
             self,
             data: typing.Union[str, bytes, int, float]) -> str:
         """Cache up data"""
-        id = str(uuid.uuid4())
-        self._redis.set(id, data)
-        return id
+        key = str(uuid.uuid4())
+        self._redis.set(key, data)
+        return key
 
     def get(
             self,
             key: str,
-            fn: typing.Optional[typing.Callable]
+            fn: typing.Optional[typing.Callable] = None
             ) -> typing.Union[str, bytes, int, float]:
         """Retrieve data"""
         result = self._redis.get(key)
