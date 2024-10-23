@@ -17,14 +17,14 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 
 
 def call_history(method: typing.Callable) -> typing.Callable:
-    """ Count history Decorator """
+    """ history Decorator that saves the call history """
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wraps the crud function to add the historization functionality"""
         client: redis.Redis = self._redis
-        client.rpush(method.__qualname__+':inputs', str(args))
+        client.rpush("{}:inputs".format(method.__qualname__), str(args))
         result = method(self, *args, **kwargs)
-        client.rpush(method.__qualname__+':outputs', str(result))
+        client.rpush("{}:outputs".format(method.__qualname__), str(result))
         return result
     return wrapper
 
@@ -51,7 +51,6 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    
     @count_calls
     @call_history
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
