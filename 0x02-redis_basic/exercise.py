@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise"""
+"""Exercise module about decorators and redis"""
 import redis
 import typing
 import uuid
