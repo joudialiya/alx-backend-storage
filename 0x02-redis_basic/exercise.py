@@ -23,8 +23,8 @@ def call_history(method: typing.Callable) -> typing.Callable:
         """Wraps the crud function to add the historization functionality"""
         client: redis.Redis = self._redis
         client.rpush(method.__qualname__+':inputs', str(args))
-        result = method(self, *args)
-        client.rpush(method.__qualname__+':outputs', result)
+        result = method(self, *args, **kwargs)
+        client.rpush(method.__qualname__+':outputs', str(result))
         return result
     return wrapper
 
