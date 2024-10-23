@@ -23,7 +23,7 @@ def call_history(method: typing.Callable) -> typing.Callable:
         """Wraps the crud function to add the historization functionality"""
         client: redis.Redis = self._redis
         client.rpush(method.__qualname__+':inputs', str(args))
-        result = method(self, *args, **kwargs)
+        result = method(self, *args)
         client.rpush(method.__qualname__+':outputs', result)
         return result
     return wrapper
@@ -37,8 +37,8 @@ class Cache:
         """ The constructor of the cahing class"""
         self._redis = redis.Redis()
 
-    @count_calls
     @call_history
+    @count_calls
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
         """ Cache up data with random key """
         key = str(uuid.uuid4())
