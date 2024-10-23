@@ -6,7 +6,6 @@ import typing
 import uuid
 
 
-
 def count_calls(method: typing.Callable) -> typing.Callable:
     """ Count calls Decorator """
     @functools.wraps(method)
@@ -17,8 +16,21 @@ def count_calls(method: typing.Callable) -> typing.Callable:
     return wrapper
 
 
+def call_history(method: typing.Callable) -> typing.Callable:
+    """ Count history Decorator """
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs) -> str:
+        """Wraps the crud function to add the historization functionality"""
+        client: redis.Redis = self._redis
+        client.rpush(method.__qualname__+':inputs', str(args))
+        result = method(self, *args, **kwargs)
+        client.rpush(method.__qualname__+':outputs', result)
+        return result
+    return wrapper
+
+
 class Cache:
-    """ 
+    """
     Caching class wraps redis
     """
     def __init__(self) -> None:
@@ -26,6 +38,7 @@ class Cache:
         self._redis = redis.Redis()
 
     @count_calls
+    @call_history
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
         """ Cache up data with random key """
         key = str(uuid.uuid4())
