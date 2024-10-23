@@ -19,7 +19,7 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 class Cache:
     """ Cache class """
     def __init__(self) -> None:
-        """ The constructor """
+        """ The constructor of the cahing class"""
         self._redis = redis.Redis()
 
     @count_calls
