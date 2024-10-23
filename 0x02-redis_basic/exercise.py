@@ -14,6 +14,7 @@ class Cache:
     def store(
             self,
             data: typing.Union[str, bytes, int, float]) -> str:
+        """Cache up data"""
         id: str = str(uuid.uuid4())
         self._redis.set(id, data)
         return id
