@@ -18,7 +18,9 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 
 
 class Cache:
-    """ Caching class """
+    """ 
+    Caching class wraps redis
+    """
     def __init__(self) -> None:
         """ The constructor of the cahing class"""
         self._redis = redis.Redis()
