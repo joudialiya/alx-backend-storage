@@ -3,23 +3,22 @@
 import redis
 import requests
 from functools import wraps
-from typing import Callable
 
 
-def keep_count_decorator(fn: Callable) -> Callable:
+def keep_count_decorator(fn):
     """ Decorator to count page access """
 
     @wraps(fn)
     def wrapper(url: str) -> str:
         """ wrapper logic function """
         client = redis.Redis()
+        client.incr(f'count:{url}')
         cached_page = client.get(f'{url}')
         if cached_page:
             return cached_page.decode('utf-8')
 
         response = fn(url)
         client.set(f'{url}', response, 10)
-        client.incr(f'count:{url}')
         return response
     return wrapper
 
