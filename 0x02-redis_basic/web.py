@@ -8,7 +8,7 @@ from typing import Callable
 def keep_count_decorator(fn: Callable) -> Callable:
     client = redis.Redis()
 
-    def wrapper(url):
+    def wrapper(url: str) -> str:
         key = "count:{}".format(url)
         client.incr(key)
 
@@ -24,4 +24,4 @@ def keep_count_decorator(fn: Callable) -> Callable:
 @keep_count_decorator
 def get_page(url: str) -> str:
     """keep track of reqs"""
-    requests.get(url)
+    return requests.get(url).text
