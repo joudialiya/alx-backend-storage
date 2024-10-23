@@ -14,6 +14,6 @@ class Cache:
     def store(
             self,
             data: typing.Union[str, bytes, int, float]) -> str:
-        id: str = str(uuid.uuid1())
+        id: str = str(uuid.uuid4())
         self._redis.set(id, data)
         return id
