@@ -9,7 +9,7 @@ import uuid
 def count_calls(method: typing.Callable) -> typing.Callable:
     """ Count calls Decorator """
     @functools.wraps(method)
-    def wrapper(self, *args, **kwargs) -> str:
+    def wrapper(self, *args, **kwargs):
         """Wraps the crud function to add the count functionality"""
         self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
@@ -19,7 +19,7 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 def call_history(method: typing.Callable) -> typing.Callable:
     """ Count history Decorator """
     @functools.wraps(method)
-    def wrapper(self, *args, **kwargs) -> str:
+    def wrapper(self, *args, **kwargs):
         """Wraps the crud function to add the historization functionality"""
         client: redis.Redis = self._redis
         client.rpush(method.__qualname__+':inputs', str(args))
