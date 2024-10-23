@@ -13,14 +13,13 @@ def keep_count_decorator(fn: Callable) -> Callable:
     @wraps(fn)
     def wrapper(url: str) -> str:
         """ Wrapper function """
-        key = "count:{}".format(url)
-        client.incr(key)
+        client.incr(f'count:{url}')
 
-        cached_page = client.get("result:{}".format(url))
+        cached_page = client.get("{}".format(url))
         if cached_page:
             return cached_page.decode('utf-8')
         response = fn(url)
-        client.set("result:{}".format(url), response, 10)
+        client.set("{}".format(url), response, 10)
         return response
     return wrapper
 
