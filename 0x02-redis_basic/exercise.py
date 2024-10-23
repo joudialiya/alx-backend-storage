@@ -6,26 +6,25 @@ import uuid
 import functools
 
 
+def count_calls(method: typing.Callable) -> typing.Callable:
+    """ Count calls Decorator """
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs) -> str:
+        """Wraps the crud function to add the count functionality"""
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
 class Cache:
     """ Cache class """
     def __init__(self) -> None:
         """ The constructor """
         self._redis = redis.Redis()
 
-    def count_calls(method: typing.Callable) -> typing.Callable:
-        """ Count calls Decorator """
-        @functools.wraps(method)
-        def wrapper(self, *args, **kwargs) -> str:
-            """Wraps the crud function to add the count functionality"""
-            self._redis.incr(method.__qualname__)
-            return method(self, *args, **kwargs)
-        return wrapper
-
     @count_calls
-    def store(
-            self,
-            data: typing.Union[str, bytes, int, float]) -> str:
-        """ Cache up data """
+    def store(self, data: typing.Union[str, bytes, int, float]) -> str:
+        """ Cache up data with random key """
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
