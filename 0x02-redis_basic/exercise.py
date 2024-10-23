@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Exercise module about decorators and redis"""
+import functools
 import redis
 import typing
 import uuid
-import functools
+
 
 
 def count_calls(method: typing.Callable) -> typing.Callable:
@@ -17,7 +18,7 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 
 
 class Cache:
-    """ Cache class """
+    """ Caching class """
     def __init__(self) -> None:
         """ The constructor of the cahing class"""
         self._redis = redis.Redis()
