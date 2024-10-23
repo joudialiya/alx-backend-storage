@@ -3,6 +3,7 @@
 import redis
 import typing
 import uuid
+import functools
 
 
 class Cache:
@@ -11,6 +12,16 @@ class Cache:
         """Constructor"""
         self._redis = redis.Redis()
 
+    def count_calls(method: typing.Callable) -> typing.Callable:
+        """Count calls Decorator """
+        @functools.wraps(method)
+        def wrapper(self, *args, **kwargs) -> str:
+            """Wrapt the crud function to add the count functionality"""
+            self._redis.incr(method.__qualname__)
+            return method(self, *args, **kwargs)
+        return wrapper
+
+    @count_calls
     def store(
             self,
             data: typing.Union[str, bytes, int, float]) -> str:
