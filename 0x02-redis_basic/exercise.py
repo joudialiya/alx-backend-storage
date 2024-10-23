@@ -19,13 +19,14 @@ def count_calls(method: typing.Callable) -> typing.Callable:
 def call_history(method: typing.Callable) -> typing.Callable:
     """ history Decorator that saves the call history """
     @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        """Wraps the crud function to add the historization functionality"""
-        client = self._redis
-        client.rpush("{}:inputs".format(method.__qualname__), str(args))
-        result = method(self, *args, **kwargs)
-        client.rpush("{}:outputs".format(method.__qualname__), str(result))
-        return result
+    def wrapper(self: typing.Any, *args, **kwargs):
+        """
+        Wraps the crud function to add the historization functionality
+        """
+        self._redis.rpush("{}:inputs".format(method.__qualname__), str(args))
+        res = method(self, *args, **kwargs)
+        self._redis.rpush("{}:outputs".format(method.__qualname__), str(res))
+        return res
     return wrapper
 
 
