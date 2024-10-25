@@ -12,6 +12,7 @@ def keep_count_decorator(fn):
     def wrapper(url: str) -> str:
         """ wrapper logic function """
         client = redis.Redis()
+        client.flushdb()
         client.incr(f'count:{url}')
         cached_page = client.get(f'content:{url}')
         if cached_page:
