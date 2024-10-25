@@ -13,12 +13,13 @@ def keep_count_decorator(fn):
         """ wrapper logic function """
         client = redis.Redis()
         client.incr(f'count:{url}')
-        cached_page = client.get(f'{url}')
+        cached_page = client.get(f'content:{url}')
         if cached_page:
             return cached_page.decode('utf-8')
 
         response = fn(url)
-        client.set(f'{url}', response, 10)
+        client.set(f'content:{url}', response)
+        client.expire(f'content:{url}', 10)
         return response
     return wrapper
 
